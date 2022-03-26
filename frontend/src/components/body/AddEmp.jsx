@@ -27,6 +27,7 @@ import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import { useNavigate } from "react-router-dom";
 import Table from "./Table";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -79,8 +80,18 @@ export default function DialogBox() {
   const [editCall, setEditCall] = useState(false);
   const [id, setId] = useState(null);
   const [serachData, setSearchData] = useState([]);
+  const navigate = useNavigate();
 
-  useEffect(() => {}, [refresh]);
+  useEffect(() => {
+    let admin = localStorage.getItem("admin");
+    if (admin) {
+      navigate("/home");
+    }
+    else{
+      navigate("/")
+    }
+
+  }, [refresh]);
 
   const handleClickOpen = () => {
     reset({
@@ -108,10 +119,9 @@ export default function DialogBox() {
       .typeError("Enter Valid Phone number")
       .required("Required*"),
     desigination: Yup.string().required("Required*"),
-    imageOne: Yup.mixed().test("required","upload the image",(value)=>{
-      return value && value.length
-    })
-    
+    imageOne: Yup.mixed().test("required", "upload the image", (value) => {
+      return value && value.length;
+    }),
   });
   const {
     register,
@@ -249,7 +259,7 @@ export default function DialogBox() {
               id="filled-adornment-weight"
               type="file"
               name="imageOne"
-              accept='.jpg,.jpeg,.png,'
+              accept=".jpg,.jpeg,.png,"
               aria-describedby="filled-weight-helper-text"
               {...register("imageOne")}
               error={errors.imageOne ? true : false}

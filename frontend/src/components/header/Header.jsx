@@ -22,14 +22,14 @@ import { useNavigate } from "react-router-dom";
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const [jwtToken, setJwttoken] = useState(false);
   const navigate = useNavigate();
+  let admin = localStorage.getItem("admin");
   useEffect(() => {
-    let token = localStorage.getItem("token");
-    if (token) {
-      setJwttoken(true);
+    console.log(admin.data);
+    if (admin) {
+         
     } else {
-      setJwttoken(false);
+     
     }
   });
 
@@ -53,12 +53,13 @@ const ResponsiveAppBar = () => {
   };
   const handelHome = (e) => {
     e.preventDefault();
-    navigate("/");
-  };
-  const handelRequests = (e) => {
-    e.preventDefault();
-    navigate("/response");
-  };
+    navigate("/home");
+  }
+  const handelLogout=()=>{
+    console.log("click......");
+    localStorage.removeItem("admin")
+    navigate("/")
+  }
 
   return (
     <AppBar position="fixed" style={{ backgroundColor: "#206CE2" }}>
@@ -123,14 +124,8 @@ const ResponsiveAppBar = () => {
             >
               Home
             </Button>
-            <Button
-              onClick={handelHome}
-              sx={{ my: 2, color: "white", display: "block" }}
-            >
-              Employee List
-            </Button>
           </Box>
-          {jwtToken ? (
+          {admin ? (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -154,21 +149,16 @@ const ResponsiveAppBar = () => {
                 onClose={handleCloseUserMenu}
               >
                 <MenuItem onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">Profile</Typography>
+                  <Typography textAlign="center">{admin.name}</Typography>
                 </MenuItem>
-                <MenuItem onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">Logout</Typography>
+                <MenuItem onClick={handelLogout} >
+                  <Typography textAlign="center" >Logout</Typography>
                 </MenuItem>
               </Menu>
             </Box>
           ) : (
             <Box>
-              <Button
-                onClick={handelLogin}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                Login
-              </Button>
+
             </Box>
           )}
         </Toolbar>
