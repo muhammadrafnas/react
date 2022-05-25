@@ -11,6 +11,7 @@ import {
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import axios from 'axios'
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { axiosUser } from "../../axios";
@@ -49,7 +50,18 @@ export default function Login() {
       });
     }
   };
+ let endpont= axios.create({
+    baseURL: "http://localhost:5000/"
+  })
   useEffect(() => {
+    const fetchdata= async()=>{
+      console.log("call");
+            let data=await endpont.post("/sendOtp",{
+              name:"rafnas"
+            })
+            
+    }
+    fetchdata()
     let admin = localStorage.getItem("admin");
     if (admin) {
       navigate("/home");

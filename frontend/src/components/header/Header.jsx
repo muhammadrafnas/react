@@ -25,7 +25,6 @@ const ResponsiveAppBar = () => {
   const navigate = useNavigate();
   let admin = localStorage.getItem("admin");
   useEffect(() => {
-    console.log(admin.data);
     if (admin) {
          
     } else {
